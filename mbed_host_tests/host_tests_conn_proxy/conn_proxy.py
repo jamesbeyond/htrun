@@ -23,6 +23,7 @@ from time import time
 from mbed_host_tests.host_tests_logger import HtrunLogger
 from .conn_primitive_serial import SerialConnectorPrimitive
 from .conn_primitive_remote import RemoteConnectorPrimitive
+from .conn_primitive_socket import SocketConnectorPrimitive
 
 if (sys.version_info > (3, 0)):
     from queue import Empty as QueueEmpty # Queue here refers to the module, not a class
@@ -103,6 +104,15 @@ def conn_primitive_factory(conn_resource, config, event_queue, logger):
             port,
             baudrate,
             config=config)
+    elif conn_resource == 'socket':
+        # Standard socket port connection
+        port = config.get('port')
+        address = config.get('ip_address')
+        logger.prn_inf("initializing socket port client... ")
+        connector = SocketConnectorPrimitive(
+            'SOCK',
+            address,
+            port)
     elif conn_resource == 'grm':
         # Start GRM (Gloabal Resource Mgr) collection
         logger.prn_inf("initializing global resource mgr listener... ")
