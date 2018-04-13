@@ -68,6 +68,15 @@ class Mbed:
         # Overriding baud rate value with command line specified value
         self.serial_baud = self.options.baud_rate if self.options.baud_rate else self.serial_baud
 
+        # Users can use command to pass socket IP address and port together with socket option. E.g. 127.0.0.1:5000
+        # Format if IP_ADDRESS:PORT
+        if (self.options.socket):
+            socket_config = self.options.socket.split(':')
+            if len(socket_config) == 2:
+                self.ip_address = socket_config[0] 
+                self.port = socket_config[1]
+           
+        
         # Test configuration in JSON format
         self.test_cfg = None
         if self.options.json_test_configuration is not None:

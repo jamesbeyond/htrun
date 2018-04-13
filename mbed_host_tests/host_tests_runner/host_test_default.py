@@ -86,6 +86,11 @@ class DefaultTestSelector(DefaultTestSelectorBase):
                 self.options.skip_reset = True
                 self.options.skip_flashing = True
 
+            if options.socket:
+                # socket connect will not provide reset/flashing function
+                self.options.skip_reset = True
+                self.options.skip_flashing = True
+
         if options.compare_log:
             with open(options.compare_log, "r") as f:
                 self.compare_log = f.read().splitlines()
@@ -176,6 +181,14 @@ class DefaultTestSelector(DefaultTestSelectorBase):
             "tags" : self.options.tag_filters,
             "sync_timeout": self.options.sync_timeout
         }
+
+        if self.options.socket:
+            config.update({
+                "conn_resource" : 'socket',
+                "digest" : 'socket',
+                "port" : self.mbed.port,
+                "ip_address" : self.mbed.ip_address
+            })        
 
         if self.options.global_resource_mgr:
             grm_module, grm_host, grm_port = self.options.global_resource_mgr.split(':')

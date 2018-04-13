@@ -181,6 +181,11 @@ def init_host_test_cli_params():
                       help="Serial port of the target",
                       metavar="PORT")
 
+    parser.add_option("-s", "--socket",
+                      dest="socket",
+                      help="IP address and port number to a socket",
+                      metavar="SOCKET")
+
     parser.add_option("-d", "--disk",
                       dest="disk",
                       help="Target disk (mount point) path",
